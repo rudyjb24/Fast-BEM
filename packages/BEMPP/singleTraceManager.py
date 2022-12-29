@@ -228,7 +228,11 @@ class SingleTraceManager:
         return frequencies, wavenumbers
 
     def loadSavedData(self):
-        self.picklePath = "pickles/L={}*radius/{}${}".format(self.spacing_multiplier, self.formulationType, len(self.bubbles))
+        import os
+        pickleFolder = "pickles/L={}*radius".format(self.spacing_multiplier)
+        if not os.path.isdir(pickleFolder):
+            os.mkdir(pickleFolder)
+        self.picklePath = pickleFolder+"/{}${}".format(self.formulationType, len(self.bubbles))
         try:
             with open(self.picklePath, "rb") as file:
                 self.pickle = pickle.load(file)
